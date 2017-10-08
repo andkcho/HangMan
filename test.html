@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+body,h1 {font-family: "Raleway", sans-serif}
+body, html {height: 100%}
+.bgimg {
+    background-image: url('https://www.walldevil.com/wallpapers/w01/446839-forest-mist-monochrome-pine-trees.jpg');
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+</style>
+<body>
+
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+  <div class="w3-display-topleft w3-padding-large w3-xlarge">
+    Hang Man
+  </div>
+  <div class="w3-display-middle">
+    <h1 id="word-to-guess"></h1>
+    <hr class="w3-border-grey" style="margin:auto;width:40%">
+    <p id="wrongLetters">Wrong Letters: </p>
+    <p id="numGuesses">Guesses Left: </p>
+    <p id="numWin">Guesses Left: </p>
+    <p id="losscount">Guesses Left: </p>
+  </div>
+  <div class="w3-display-bottomleft w3-padding-large">
+    <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">By: Andrew Cho</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+  
+
+      var animals = ["moose", "deer", "snake", "eagle", "sealion","porcupine","lizard","turtle", "pug", "buffalo", "bear", "elk", "fox", "coyote", "antelope"]
+      var selectAnimal = "";
+      var lettersInWord = [];
+      var numberOfBlanks = 0;
+      var blankAndSuccesses = [];
+      var wrongLetters = [];
+
+      var winCount = 0;
+      var losscount = 0;
+      var guessesleft = 9;
+
+    function startgame () {
+
+      selectAnimal = animals[Math.floor(Math.random() * animals.length)];
+      lettersInWord = selectAnimal.split("");
+      numberOfBlanks = lettersInWord.length;
+
+      //reset
+      guessesleft = 9;
+      wrongLetters = [];
+      blankAndSuccesses = [];
+
+      //populate banks and spaces with correct letters and numbers
+
+      for (var i=0; i<numberOfBlanks; i++) {
+      blankAndSuccesses.push("_");
+      }
+       
+      //change HTML
+      document.getElementById("word-to-guess").innerHTML = blankAndSuccesses.join(" ");
+      document.getElementById("numGuesses").innerHTML = "Guesses left: " + guessesleft;
+      document.getElementById("numWin").innerHTML ="Wins: " + winCount;
+      document.getElementById("losscount").innerHTML ="Losses:" + losscount;
+
+      console.log(selectAnimal);
+      console.log(lettersInWord);
+      console.log(numberOfBlanks);
+      console.log(blankAndSuccesses);
+    }
+
+      function checkLetters(letter) {
+        //check if letter exists in code
+        var isLetterinWord = false;
+
+        for (var i=0; i<numberOfBlanks; i++) {
+          if(selectAnimal[i] == letter) {
+            isLetterinWord = true;
+
+          }
+        }
+
+
+        //check where in the words exist and populate on screen
+        if (isLetterinWord) {
+        for (var i=0; i<numberOfBlanks; i++) {
+          if(selectAnimal[i] == letter) {
+            blankAndSuccesses[i] = letter;
+          }
+        }
+        } 
+
+      //letter wasn't found
+      else {
+
+        wrongLetters.push(letter);
+        guessesleft--
+      }
+
+      console.log(blankAndSuccesses);
+
+      }
+
+      function roundComplete() {
+
+        document.getElementById("numGuesses").innerHTML = "Guesses left: " + guessesleft;
+        document.getElementById("word-to-guess").innerHTML = blankAndSuccesses.join(" ");
+        document.getElementById("wrongLetters").innerHTML = wrongLetters.join(" ");
+
+        if (lettersInWord.toString() == blankAndSuccesses.toString()) {
+          winCount++
+          alert("Winner Winner! Chicken Dinner")
+        
+
+        document.getElementById("numWin").innerHTML = winCount;
+
+        startgame();
+      }
+
+      else if (guessesleft == 0) {
+        losscount++
+        alert("Game Over")
+
+        document.getElementById("losscount").innerHTML = losscount;
+
+        startgame();
+
+      }
+
+    }
+
+    startgame(); //prompts the function to start
+
+    //register key clicks
+
+    document.onkeyup = function(event) {
+      var letterGuessed = String.fromCharCode(event.keyCode).toLowerCase();
+      checkLetters(letterGuessed);
+      roundComplete();
+      
+
+}
+    
+
+
+  
+</script>
+
+</body>
+</html># weekthree
